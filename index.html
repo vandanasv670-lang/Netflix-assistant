@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NetflixBot</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: linear-gradient(to bottom, #000 20%, #141414 100%); color: #fff; line-height: 1.6; }
+
+    /* Navbar */
+    nav { display: flex; justify-content: space-between; align-items: center; background: #141414; padding: 15px 40px; }
+    nav .logo { color: #e50914; font-size: 28px; font-weight: bold; }
+    nav ul { list-style: none; display: flex; }
+    nav ul li { margin-left: 20px; }
+    nav ul li a { text-decoration: none; color: #fff; transition: 0.3s; }
+    nav ul li a:hover { color: #e50914; }
+
+    /* Hero */
+    .hero { text-align: center; padding: 100px 20px; background: url('https://assets.nflxext.com/ffe/siteui/vlv3/93dfbc4d-5a1a-4d6d-b1a4-8e9a98e65ce5/37c010df-7c7e-46a7-8bb4-b70a6f6c0c3c/IN-en-20230821-popsignuptwoweeks-perspective_alpha_website_medium.jpg') no-repeat center/cover; }
+    .hero h2 { font-size: 40px; margin-bottom: 20px; text-shadow: 2px 2px 8px #000; }
+    .hero p { font-size: 20px; color: #ddd; text-shadow: 1px 1px 5px #000; }
+
+    /* Sections */
+    .chatbot, .rating, .movies, .about, .tts, .feedback {
+      background: #141414; padding: 30px; margin: 40px auto;
+      width: 90%; max-width: 900px; border-radius: 10px; text-align: center;
+    }
+    .chatbot h3, .rating h3, .movies h3, .about h2, .tts h2, .feedback h3 { color: #e50914; margin-bottom: 20px; }
+
+    /* Buttons & Inputs */
+    button { background: #e50914; color: white; padding: 10px 16px; border: none; border-radius: 5px; margin-top: 10px; cursor: pointer; transition: 0.3s; }
+    button:hover { background: #f40612; }
+    input[type="text"], textarea { padding: 10px; width: 80%; max-width: 500px; border-radius: 5px; border: none; margin: 10px auto; display: block; }
+
+    /* Movies Carousel */
+    .carousel-container { overflow-x: auto; white-space: nowrap; padding: 10px 0; }
+    .carousel-track { display: flex; gap: 15px; }
+    .carousel-track img { width: 200px; height: 300px; object-fit: cover; border-radius: 10px; transition: transform 0.3s; }
+    .carousel-track img:hover { transform: scale(1.05); }
+    .movie-card { display: inline-block; text-align: center; }
+
+    /* Rating */
+    .stars span { font-size: 40px; cursor: pointer; color: #444; transition: 0.3s; }
+    .stars span:hover, .stars span.active { color: gold; }
+    #rating-output { margin-top: 10px; font-size: 18px; color: #ccc; }
+
+    /* Feedback */
+    #feedback-list { margin-top: 15px; text-align: left; background: #222; padding: 15px; border-radius: 8px; }
+    #feedback-list p { margin-bottom: 8px; border-bottom: 1px solid #444; padding-bottom: 5px; }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <h1 class="logo">NetflixBot</h1>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#chatbot">Chatbot</a></li>
+      <li><a href="#tts">TTS</a></li>
+      <li><a href="#feedback">Feedback</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero" id="home">
+    <h2>Welcome to Netflix Chatbot</h2>
+    <p>Ask me anything about Netflix movies, shows & more!</p>
+  </header>
+
+  <!-- Chatbot -->
+  <section class="chatbot" id="chatbot">
+    <h3>Talk with NetflixBot 🎬</h3>
+    <p>Click the chat button at the bottom right to start chatting.</p>
+  </section>
+
+  <!-- Movies -->
+  <section class="movies">
+    <h3>Popular on Netflix 🍿</h3>
+    <div class="carousel-container">
+      <div class="carousel-track">
+        <div class="movie-card">
+          <img src="https://image.tmdb.org/t/p/w200/or06FN3Dka5tukK1e9sl16pB3iy.jpg" alt="Avengers Endgame">
+          <p>Avengers Endgame</p>
+        </div>
+        <div class="movie-card">
+          <img src="https://image.tmdb.org/t/p/w200/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg" alt="Inception">
+          <p>Inception</p>
+        </div>
+        <div class="movie-card">
+          <img src="https://image.tmdb.org/t/p/w200/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg" alt="Joker">
+          <p>Joker</p>
+        </div>
+        <div class="movie-card">
+          <img src="https://image.tmdb.org/t/p/w200/x2LSRK2Cm7MZhjluni1msVJ3wDF.jpg" alt="Stranger Things">
+          <p>Stranger Things</p>
+        </div>
+        <div class="movie-card">
+          <img src="https://image.tmdb.org/t/p/w200/zrPpUlehQaBf8YX2NrVrKK8IEpf.jpg" alt="The Witcher">
+          <p>The Witcher</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about" id="about">
+    <h2>About NetflixBot</h2>
+    <p>NetflixBot is your AI-powered chatbot to explore trending movies, shows, and more from Netflix.</p>
+  </section>
+
+  <!-- TTS Section -->
+  <section class="tts" id="tts">
+    <h2>Text to Speech 🎤</h2>
+    <input type="text" id="ttsInput" placeholder="Type something here...">
+    <button onclick="speak()">Speak 🔊</button>
+  </section>
+
+  <!-- Rating -->
+  <section class="rating">
+    <h3>Rate Us ⭐</h3>
+    <div class="stars">
+      <span onclick="rate(1)">★</span>
+      <span onclick="rate(2)">★</span>
+      <span onclick="rate(3)">★</span>
+      <span onclick="rate(4)">★</span>
+      <span onclick="rate(5)">★</span>
+    </div>
+    <p id="rating-output"></p>
+  </section>
+
+  <!-- Feedback Box -->
+  <section class="feedback" id="feedback">
+    <h3>Send Your Feedback 💬</h3>
+    <textarea id="feedback-input" rows="4" placeholder="Write your feedback here..."></textarea>
+    <button onclick="submitFeedback()">Submit</button>
+    <div id="feedback-list"></div>
+  </section>
+
+  <!-- JS -->
+  <script>
+    // Rating
+    function rate(stars) {
+      document.querySelectorAll('.stars span').forEach((el, i) => {
+        el.classList.toggle('active', i < stars);
+      });
+      document.getElementById("rating-output").innerText = "You rated: " + stars + " stars!";
+    }
+
+    // TTS Function
+    function speak() {
+      let text = document.getElementById("ttsInput").value;
+      if (!text) text = "Please enter some text first.";
+      let speech = new SpeechSynthesisUtterance(text);
+      speech.lang = "en-US";
+      speech.rate = 1;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(speech);
+    }
+
+    // Feedback Function
+    function submitFeedback() {
+      let feedback = document.getElementById("feedback-input").value.trim();
+      if (!feedback) {
+        alert("Please write something before submitting.");
+        return;
+      }
+      let feedbackList = document.getElementById("feedback-list");
+      let p = document.createElement("p");
+      p.innerText = feedback;
+      feedbackList.appendChild(p);
+      document.getElementById("feedback-input").value = "";
+    }
+
+    // Watson Assistant
+    window.watsonAssistantChatOptions = {
+        integrationID: "2d138892-a893-4683-9991-e39686b3945d",
+        region: "au-syd",
+        serviceInstanceID: "8eb73d09-3feb-4646-949b-e8fbb0d9b6f4",
+        onLoad: async (instance) => { await instance.render(); }
+    };
+    setTimeout(function(){
+      const t=document.createElement('script');
+      t.src="https://web-chat.global.assistant.watson.appdomain.cloud/loadWatsonAssistantChat.js";
+      document.head.appendChild(t);
+    });
+  </script>
+</body>
+</html>
